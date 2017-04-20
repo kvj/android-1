@@ -2,9 +2,7 @@ package org.standardnotes.notes.comms
 
 import android.os.Handler
 import android.util.Log
-import org.acra.ACRA
 import org.standardnotes.notes.SApplication
-import org.standardnotes.notes.comms.data.Note
 import org.standardnotes.notes.comms.data.SyncItems
 import org.standardnotes.notes.comms.data.UploadSyncItems
 import retrofit2.Call
@@ -97,12 +95,10 @@ object SyncManager {
 
                         syncCall = null
                     } else {
-                        putItemErrors.forEach { ACRA.getErrorReporter().handleException(it) }
                         onFailure(call, Exception("Sync error"))
                     }
                 } else {
                     val ex = Exception("sync failed " + response.errorBody().string())
-                    ACRA.getErrorReporter().handleException(ex)
                     onFailure(call, ex)
                 }
             }
