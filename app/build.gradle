@@ -14,6 +14,26 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "SERVER_DEFAULT", "\"https://n3.standardnotes.org/\""
     }
+    if (project.hasProperty('personal')) {
+        apply from: '../../Configs/gradle/android.gradle'
+        signingConfigs {
+            release {
+            }
+        }
+        androidSetupSignConfig(signingConfigs.release)
+        buildTypes {
+            release {
+                signingConfig signingConfigs.release
+            }
+        }
+        productFlavors {
+            personal {
+                versionNameSuffix '-personal'
+                applicationIdSuffix ".personal"
+                minSdkVersion 16
+            }
+        }
+    }
     // The release password should not be stored on the repository. Use a build parameter, eg:
     // gradlew assembleRelease -PsignPass=xxxx
     if (project.hasProperty('signPass')) {
